@@ -6,5 +6,4 @@ class Font:
 
     def render(self,Text:str,Color:tuple,Size:int) -> pygame.Surface:
         FONT = pygame.font.Font(self.FontPath, Size)
-        TEXT = FONT.render(Text, True,Color)
-        return TEXT
+        return FONT.render(Text, True,Color)
