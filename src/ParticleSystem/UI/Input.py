@@ -12,7 +12,7 @@ class Input:
 
         self.FONT = Font()
         self.isTyping = False
-        self.text = self.FONT.render(self.value,COLOR_WHITE,16)
+        self.text = self.FONT.render( self.value,COLOR_WHITE, int(16*self.WINDOW.get_height()/BEST_SUIT_HEIGHT) )
 
     def isClicked(self,pos:tuple) -> bool:
         if pygame.Rect(self.x,self.y,self.width,self.height).collidepoint(pos[0],pos[1]):
@@ -33,11 +33,18 @@ class Input:
                 float(self.value+event.unicode)
                 self.value += event.unicode
             except:pass
+    
+    def isHover(self) -> bool:
+        pos = pygame.mouse.get_pos()
+        pos = (pos[0] - (pygame.display.get_surface().get_width()-self.WINDOW.get_size()[0]),pos[1])
+        return pygame.Rect(self.x,self.y,self.width,self.height).collidepoint(pos) 
+
     def render(self) -> None:
         if(self.isTyping):self.text = self.FONT.render(self.value,COLOR_WHITE,16)
         if( (self.value == "" or self.value == " ") and not self.isTyping):
             self.value = str(self.default)
             self.text = self.FONT.render(self.value,COLOR_WHITE,16)
 
-        pygame.draw.rect(self.WINDOW,COLOR_WHITE,pygame.Rect(self.x,self.y,self.width,self.height),1)
+        if(self.isTyping):pygame.draw.rect(self.WINDOW,COLOR_GREEN,pygame.Rect(self.x,self.y,self.width,self.height),1)
+        else:pygame.draw.rect(self.WINDOW,COLOR_WHITE,pygame.Rect(self.x,self.y,self.width,self.height),1)
         self.WINDOW.blit(self.text,(self.x+2,self.y))

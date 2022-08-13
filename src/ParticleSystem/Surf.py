@@ -35,7 +35,13 @@ class Surf:
 
             tmpY = tmpY+self.heightGap+20 if(SETTING[1] == "TITLE") else tmpY+self.heightGap
 
+    def hover(self) -> None:
+        for Component in self.Components:
+            if(Component.isHover()): return True
+        return False
+
     def render(self) -> None:
+        self.hover()
         for Text in self.Texts:self.surf.blit(Text[0],Text[1])
         for Component in self.Components:Component.render()
 
@@ -48,7 +54,17 @@ class SurfManager:
         for SETTINGS in SETTINGS_LIST:
             self.Surfaces.append(Surf(SETTINGS,self.SettingsSurface,startpos))
             startpos = (0,self.Surfaces[-1].Texts[-1][1][1] + 50)
-    
+
+    def hover(self):
+        for Surface in self.Surfaces:
+            if(Surface.hover()):
+                pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_HAND)
+                return 
+        pygame.mouse.set_system_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
     def render(self) -> None:
         self.SettingsSurface.fill(COLOR_BLACK)
+
+        self.hover()
         for Surface in self.Surfaces:Surface.render()
+        
