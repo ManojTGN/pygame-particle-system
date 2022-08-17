@@ -16,7 +16,7 @@ GLOBAL_SETTINGS = [
     ("Start Delay","INPUT",0),
     ("Start Lifetime","INPUT",5),
     ("Start Speed","INPUT",5),
-    ("Start Size","INPUT",10),
+    ("Spawn Time","INPUT",0),
     ("Color","COLOR",COLOR_WHITE),
     ("Gravity","INPUT",1),
 ]

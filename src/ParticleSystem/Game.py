@@ -22,18 +22,18 @@ class Game:
                 pos = pygame.mouse.get_pos()
                 pos = (pos[0] - self.Screen.RENDERER_WINDOW.get_size()[0],pos[1])
 
-                for Surface in self.Screen.Surf.Surfaces:
+                for Surface in self.Screen.SettingsSurf.Surfaces:
                     for Component in Surface.Components:
                         if(type(Component) == Input): Component.isClicked(pos)
                         if(type(Component) == Checkbox): Component.isClicked(pos)
 
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN):
-                    for INPUT in self.Screen.Surf.Surfaces:
+                    for INPUT in self.Screen.SettingsSurf.Surfaces:
                         for Component in INPUT.Components:
                             if(type(Component) == Input):Component.DoneTyping()
                 
-                for INPUT in self.Screen.Surf.Surfaces:
+                for INPUT in self.Screen.SettingsSurf.Surfaces:
                     for Component in INPUT.Components:
                         if(type(Component) == Input and Component.isTyping):Component.Type(event)
 

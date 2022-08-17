@@ -4,7 +4,7 @@ from ParticleSystem.UI.Font import Font
 from ParticleSystem.UI.Input import Input
 from ParticleSystem.UI.Checkbox import Checkbox
 
-class Surf:
+class SettingsSurf:
     def __init__(self,SETTINGS:tuple,surf:pygame.Surface,Startpos:tuple = (0,0)) -> None:
         self.SETTINGS = SETTINGS
 
@@ -28,10 +28,8 @@ class Surf:
             
             #Component
             tmpX = self.Texts[-1][0].get_rect().width +20 if(self.Texts[-1][0].get_rect().width > self.width) else self.width//2
-            if(SETTING[1] == "INPUT"):
-                self.Components.append(Input(self.surf,tmpX,tmpY,tmpX-20,self.Texts[-1][0].get_rect().height,SETTING[2],SETTING[2]))
-            elif(SETTING[1] == "CHECKBOX"):
-                self.Components.append(Checkbox(self.surf,tmpX,tmpY,20,SETTING[2]))
+            if(SETTING[1] == "INPUT"):self.Components.append(Input(self.surf,tmpX,tmpY,tmpX-20,self.Texts[-1][0].get_rect().height,SETTING[2],SETTING[2]))
+            elif(SETTING[1] == "CHECKBOX"):self.Components.append(Checkbox(self.surf,tmpX,tmpY,20,SETTING[2]))
 
             tmpY = tmpY+self.heightGap+20 if(SETTING[1] == "TITLE") else tmpY+self.heightGap
 
@@ -45,14 +43,20 @@ class Surf:
         for Text in self.Texts:self.surf.blit(Text[0],Text[1])
         for Component in self.Components:Component.render()
 
-class SurfManager:
+class SettingsSurfManager:
     def __init__(self,SettingsSurface:pygame.Surface) -> None:
         self.SettingsSurface = SettingsSurface
         self.Surfaces = []
+        self.OPTIONS = {}
 
         startpos = (0,10)
         for SETTINGS in SETTINGS_LIST:
-            self.Surfaces.append(Surf(SETTINGS,self.SettingsSurface,startpos))
+
+            for SETTING in SETTINGS:
+                if(SETTING[1] != "TITLE"):
+                    self.OPTIONS[SETTING[0].replace(' ','_')] = SETTING[2]
+            
+            self.Surfaces.append(SettingsSurf(SETTINGS,self.SettingsSurface,startpos))
             startpos = (0,self.Surfaces[-1].Texts[-1][1][1] + 50)
 
     def hover(self):
@@ -66,5 +70,7 @@ class SurfManager:
         self.SettingsSurface.fill(COLOR_BLACK)
 
         self.hover()
-        for Surface in self.Surfaces:Surface.render()
+        for Surface in self.Surfaces:
+            Surface.render()
+            
         
